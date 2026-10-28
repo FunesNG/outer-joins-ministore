@@ -14,7 +14,8 @@ v.venta_id,
 v.cliente_id,
 v.cantidad
 FROM productos p
-LEFT JOIN ventas v ON p.producto_id = v.producto_id;
+LEFT JOIN ventas v ON p.producto_id = v.producto_id
+WHERE v.venta_id IS NULL;
 
 -- ── CONSULTA 2: RIGHT JOIN ────────────────
 -- Pregunta de negocio: ¿Existen ventas registradas con productos
@@ -23,11 +24,13 @@ LEFT JOIN ventas v ON p.producto_id = v.producto_id;
 
 SELECT p.nombre,
 p.categoria,
+p.producto_id,
 v.venta_id,
 v.producto_id,
 v.cliente_id
 FROM productos p
-RIGHT JOIN ventas v ON p.producto_id = v.producto_id;
+RIGHT JOIN ventas v ON p.producto_id = v.producto_id
+WHERE p.producto_id IS NULL;
 
 
 -- ── CONSULTA 3: FULL OUTER JOIN ───────────
@@ -40,9 +43,10 @@ v.producto_id,
 v.cliente_id,
 v.cantidad,
 v.fecha_venta,
-p.nombre,
-p.categoria,
-p.precio
+p.producto_id,
+p.nombre
 FROM ventas v
 FULL OUTER JOIN productos p
-ON v.producto_id = p.producto_id;
+ON v.producto_id = p.producto_id
+WHERE p.producto_id IS NULL
+OR v.producto_id IS NULL;
